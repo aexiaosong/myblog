@@ -24,25 +24,48 @@ public class TypeController {
     @Autowired
     private TypeService typeService;
 
+    /**
+     * 分类页面
+     * @param pageable
+     * @param model
+     * @return
+     */
     @GetMapping("/types")
-    public String types(@PageableDefault(size = 3,sort = {"id"},direction = Sort.Direction.DESC)
-                                Pageable pageable, Model model) {
+    public String types(@PageableDefault(size = 3,sort = {"id"},direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         model.addAttribute("page",typeService.listType(pageable));
         return "admin/types";
     }
 
+    /**
+     * 添加分类页面
+     * @param model
+     * @return
+     */
     @GetMapping("/types/input")
     public String input(Model model) {
         model.addAttribute("type", new Type());
         return "admin/types-input";
     }
 
+    /**
+     * 修改分类页面
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/types/{id}/input")
     public String editInput(@PathVariable Long id, Model model) {
         model.addAttribute("type", typeService.getType(id).get());
         return "admin/types-input";
     }
 
+    /**
+     * 添加分类
+     * @param type
+     * @param result
+     * @param attributes
+     * @return
+     */
     @PostMapping("/types")
     public String post(@Valid Type type, BindingResult result, RedirectAttributes attributes) {
         Type type1 = typeService.getTypeByName(type.getName());
@@ -61,6 +84,14 @@ public class TypeController {
         return "redirect:/admin/types";
     }
 
+    /**
+     * 编辑分类
+     * @param type
+     * @param result
+     * @param id
+     * @param attributes
+     * @return
+     */
     @PostMapping("/types/{id}")
     public String editPost(@Valid Type type, BindingResult result,@PathVariable Long id, RedirectAttributes attributes) {
         Type type1 = typeService.getTypeByName(type.getName());
@@ -79,6 +110,12 @@ public class TypeController {
         return "redirect:/admin/types";
     }
 
+    /**
+     * 删除分类
+     * @param id
+     * @param attributes
+     * @return
+     */
     @GetMapping("/types/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes) {
         typeService.deleteType(id);

@@ -3,6 +3,7 @@ package com.ae.blog.po;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "标签名称不能为空")
     private String name;
     @ManyToMany(mappedBy = "tags")
     private List<Blog> blogs = new ArrayList<>();

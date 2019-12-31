@@ -24,8 +24,7 @@ public class LoginController {
     public String loginPage() {
         return "admin/login";
     }
-
-
+    
     @PostMapping("/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
