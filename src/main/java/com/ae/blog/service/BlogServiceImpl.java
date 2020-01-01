@@ -4,6 +4,7 @@ import com.ae.blog.NotFoundException;
 import com.ae.blog.dao.BlogRepository;
 import com.ae.blog.po.Blog;
 import com.ae.blog.po.Type;
+import com.ae.blog.util.MyBeanUtils;
 import com.ae.blog.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,9 @@ public class BlogServiceImpl implements BlogService {
         if (!b.isPresent()) {
             throw new NotFoundException("不存在该博客");
         }
-        BeanUtils.copyProperties(blog, b.get());
+        // 不拷贝前端传过来是空的值
+        BeanUtils.copyProperties(blog,b, MyBeanUtils.getNullPropertyNames(blog));
+        b.get().setUpdateTime(new Date());
         return blogRepository.save(b.get());
     }
 
