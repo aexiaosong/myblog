@@ -111,7 +111,7 @@ public class BlogServiceImpl implements BlogService {
             throw new NotFoundException("不存在该博客");
         }
         // 不拷贝前端传过来是空的值
-        BeanUtils.copyProperties(blog,b, MyBeanUtils.getNullPropertyNames(blog));
+        BeanUtils.copyProperties(blog, b, MyBeanUtils.getNullPropertyNames(blog));
         b.get().setUpdateTime(new Date());
         return blogRepository.save(b.get());
     }

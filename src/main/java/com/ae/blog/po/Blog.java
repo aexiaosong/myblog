@@ -33,6 +33,7 @@ public class Blog {
     private boolean commentabled;
     private boolean published;
     private boolean recommend;
+    private String description;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -47,7 +48,6 @@ public class Blog {
     private List<Comment> comments = new ArrayList<>();
     @Transient  // 不会讲属性映射到数据库
     private String tagIds;
-    private String description;
 
     public void init() {
         this.tagIds = tagsToIds(this.getTags());

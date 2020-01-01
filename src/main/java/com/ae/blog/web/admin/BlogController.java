@@ -111,7 +111,7 @@ public class BlogController {
     }
 
     /**
-     * 修改博客
+     * 修改博客页面
      * @param id 博客Id
      * @param model 前端model
      * @return 返回修改博客页面

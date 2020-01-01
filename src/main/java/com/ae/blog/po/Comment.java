@@ -25,6 +25,7 @@ public class Comment {
     private String email;
     private String content;
     private String avatar;
+    private boolean adminComment;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @ManyToOne
