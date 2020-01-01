@@ -22,6 +22,8 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Basic(fetch = FetchType.LAZY)  // 设置该字段的加载类型为懒加载
+    @Lob   // 指定在数据库中该字段的类型为LongText
     private String content;
     private String firstPicture;
     private String flag;
@@ -43,4 +45,29 @@ public class Blog {
     private User user;
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
+    @Transient  // 不会讲属性映射到数据库
+    private String tagIds;
+    private String description;
+
+    public void init() {
+        this.tagIds = tagsToIds(this.getTags());
+    }
+
+    private String tagsToIds(List<Tag> tags) {
+        if (!tags.isEmpty()) {
+            StringBuffer ids = new StringBuffer();
+            boolean flag = false;
+            for (Tag tag : tags) {
+                if (flag) {
+                    ids.append(",");
+                } else {
+                    flag = true;
+                }
+                ids.append(tag.getId());
+            }
+            return ids.toString();
+        } else {
+            return tagIds;
+        }
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,14 +43,35 @@ public class TagServiceImpl implements TagService {
         return tagRepository.findAll(pageable);
     }
 
+    @Override
+    public List<Tag> listTag() {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public List<Tag> listTag(String ids) {
+        return tagRepository.findAllById(convertToList(ids));
+    }
+
+    private List<Long> convertToList(String ids) {
+        List<Long> list = new ArrayList<>();
+        if (!"".equals(ids) && ids != null) {
+            String[] idarray = ids.split(",");
+            for (String s : idarray) {
+                list.add(new Long(s));
+            }
+        }
+        return list;
+    }
+
     @Transactional
     @Override
     public Tag updateTag(Long id, Tag tag) {
         Optional<Tag> t = tagRepository.findById(id);
-        if (t.isPresent()) {
+        if (!t.isPresent()) {
             throw new NotFoundException("不存在该标签");
         }
-        BeanUtils.copyProperties(tag, t);
+        BeanUtils.copyProperties(tag, t.get());
         return tagRepository.save(t.get());
     }
 
