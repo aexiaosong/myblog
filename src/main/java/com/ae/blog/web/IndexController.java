@@ -73,4 +73,15 @@ public class IndexController {
         model.addAttribute("blog", blogService.getAndConvert(id));
         return "blog";
     }
+
+    /**
+     * 底部信息
+     * @param model model
+     * @return 返回最新博客片段
+     */
+    @GetMapping("/footer/newblog")
+    public String newblogs(Model model) {
+        model.addAttribute("newblogs", blogService.listRecommendBlogTop(3));
+        return "_fragments :: newblogList";
+    }
 }
